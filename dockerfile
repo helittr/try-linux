@@ -23,9 +23,11 @@ RUN apt install qemu -y
 # https://gitee.com/mirrors/linux_old1.git
 # https://github.com/torvalds/linux
 #RUN git clone --depth=1 https://github.com/raspberrypi/linux -b rpi-5.15.y /root/rasbian_linux/
-#RUN git clone --depth=1 https://gitee.com/mirrors/linux_old1.git /root/linux/
+RUN git clone --depth=1 https://gitee.com/mirrors/linux_old1.git /root/linux/
 
 # start sshd
 ADD sshd.conf /etc/ssh/sshd_config.d/
-CMD /usr/sbin/sshd -D -e
+# set root's password
+ENTRYPOINT if [ -z $ROOTPASSWD ]; then ROOTPASSWD=root; fi; echo root:$ROOTPASSWD | chpasswd; /usr/sbin/sshd -D -e;
+
 EXPOSE 22/tcp

@@ -27,16 +27,52 @@
 
 ## 镜像使用
 
-- 你可以执行下面命令快速启动镜像
+### 你可以执行下面命令快速启动镜像
 
 ```
-docker run -p -d 22:22 try-linux
+docker run -p -d 22:22  -e ROOTPASSWD=root -u ming:ming  try-linux
+```
+你通过设置环境变量 ROOTPASSWD， 来设置容器中 root 用户的密码，默认为 root.
+
+
+### 测试连接
+
+如果你使用的是 bash shell 执行下面命令来连接到容器：
+
+```bash
+ssh root@`hostname`.local
 ```
 
-- 通过 ssh 链接到容器
+或 powershell
 
-```
-ssh root@localhost
+```powershell
+ssh root@$(hostname).local
 ```
 
 如果成功连接表示容器成功运行起来。
+
+### 设置免密登录
+
+1. 如果你的系统中没有可用的密钥对,你可以使用 ssh-keygen 生成 ssh 密钥对
+
+```bash
+ssh-keygen -t rsa
+```
+
+所有输入信息留空，知道命令推出。
+
+2. 将公钥上传至容器
+
+对于 bash 用户, 你可以使用 ssh-copy-id 命令上传公钥至主机
+
+```bash
+ssh-copy-id root@$(hostname).local
+```
+
+或者 powershell 用户
+
+```powershell
+ssh root@coin.local "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
+```
+
+配置成功后你可以无需输入密码，便可以登录到主机。如何登录可以参考 [**测试连接**](#测试连接)
