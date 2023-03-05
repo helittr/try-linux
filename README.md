@@ -2,6 +2,11 @@
 
 该仓库被用于创建一个 Linux 源码编译调试镜像，方便调试和理解 linux 内核. 
 
+## 仓库地址
+
+- github：      https://github.com/helittr/try-linux
+- gitee ：      https://gitee.com/helittr/try-linux
+- docker-hub:   https://hub.docker.com/repository/docker/helittr/try-linux/general
 ## 镜像描述
 
 - 该镜像基于 ubuntu:focal 构建而来，在此基础上安装了必要的工具。
