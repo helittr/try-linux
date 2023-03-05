@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "config kernel",
+            "type": "shell",
+            "runOptions": {"instanceLimit": 1},
+            "command": "make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig"
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "hide": true,
+            "command": "make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8",
+            "problemMatcher":"$gcc",
+            "detail": "build kernel with arch arm",
+            "icon": {"id": "inbox", "color": "terminal.ansiRed"},
+            "runOptions": {"instanceLimit": 1},
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "build kernel",
+            "type": "shell",
+            "isBackground": false,
+            "runOptions": {"instanceLimit": 1},
+            "command": "python3 ${workspaceFolder}/scripts/clang-tools/gen_compile_commands.py",
+            "detail": "start kernel by using qemu",
+            "dependsOn":["build"]
+        },
+        {
+            "label": "run kernel",
+            "type": "shell",
+            "isBackground": true,
+            "runOptions": {"instanceLimit": 1},
+            "command": "qemu-system-arm -kernel ${workspaceFolder}/arch/arm/boot/zImage -machine virt -nographic -s -S",
+            "detail": "start kernel by using qemu",
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "qemu gdb Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/vmlinux",
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
+            "miDebuggerServerAddress": "localhost:1234",
+            "miDebuggerArgs": "-iex 'b start_kernel'",
+            "preLaunchTask":"run kernel",
+            "stopAtConnect": true
+        }
+    ],
+    "version": "2.0.0"
+}

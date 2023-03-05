@@ -76,3 +76,5 @@ ssh root@coin.local "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
 ```
 
 配置成功后你可以无需输入密码，便可以登录到主机。如何登录可以参考 [**测试连接**](#测试连接)
+
+### 更多
