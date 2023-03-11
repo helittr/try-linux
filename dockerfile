@@ -2,7 +2,7 @@ FROM ubuntu:focal
 
 USER root
 
-ADD sources.list /etc/apt/ 
+ADD src/sources.list /etc/apt/ 
 
 # install ssh
 RUN apt update && apt upgrade -y
@@ -27,7 +27,7 @@ RUN git clone --depth=1 https://gitee.com/mirrors/linux_old1.git ~/linux/
 ADD EditorConfig/ /root/linux/.vscode/
 
 # start sshd
-ADD sshd.conf /etc/ssh/sshd_config.d/
+ADD src/sshd.conf /etc/ssh/sshd_config.d/
 # set root's password
 ENTRYPOINT if [ -z $ROOTPASSWD ]; then ROOTPASSWD=root; fi; echo root:$ROOTPASSWD | chpasswd; /usr/sbin/sshd -D -e;
 
