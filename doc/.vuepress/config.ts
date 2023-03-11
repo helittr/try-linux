@@ -1,19 +1,63 @@
 import { defineUserConfig } from "vuepress";
-import theme from "./theme.js";
+import { searchProPlugin } from "vuepress-plugin-search-pro";
+import { defaultTheme } from 'vuepress';
+import { nprogressPlugin } from '@vuepress/plugin-nprogress';
 
 export default defineUserConfig({
-  base: "/",
+  lang: "zh-CN",
+  title: "Try-Linux",
+  description: "Try-Linux 文档",
+  theme: defaultTheme({
+    logo: null,
+    repo: 'https://github.com/helittr/try-linux',
+    colorModeSwitch: true,
+    navbar: [
+      {
+        text: '首页',
+        link: '/',
+      },
+      {
+        text: '开始使用',
+        link: '/use/',
+      },
+      {
+        text: '项目',
+        link: '/project/',
+      },
+      {
+        text: '学习内核',
+        link: '/learn/',
+      }
+    ],
+    sidebar: [
+      '/README.md',
+    ],
+    editLink: true,
+    docsBranch: 'master',
+    docsDir: 'doc',
+    lastUpdatedText: '上一次更新文档',
+    contributors: true,
+    notFound: ["Not found", '页面不存在'],
+  }),
 
-  locales: {
-    "/": {
-      lang: "zh-CN",
-      title: "文档演示",
-      description: "vuepress-theme-hope 的文档演示",
-    },
-  },
+  plugins: [
+    searchProPlugin({
+      indexContent: true,
 
-  theme,
-
-  // Enable it with pwa
-  // shouldPrefetch: false,
+      customFields: [
+        {
+          getter: (page) => page.frontmatter.category,
+          formatter: "分类：$content",
+        },
+        {
+          getter: (page) => page.frontmatter.tag,
+          formatter: "标签：$content",
+        },
+      ],
+    }),
+    nprogressPlugin(),
+  ],
+  markdown: {
+    linkify: true,
+  }
 });
