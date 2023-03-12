@@ -1,8 +1,4 @@
----
- sidebar: 'auto'
----
-
-# Try-Linux
+# 安装并启动镜像
 
 你是否有过因为学习 linux 而选择各种开发板而烦恼？搭建构建环境和下载源码各种报错而放弃？频繁刷写镜像而厌烦？
 此项目被用于解决这些烦恼，让你初学者快速的学习和调试 linux 内核源码。并且详细的记录镜像的搭建流程，使用方式以及
@@ -63,17 +59,34 @@ TODO: 待补充
 你可以参考 [docker doc](https://docs.docker.com/) 来获取详细的了解它。
 :::
 
-## 镜像使用
+### 安装 git <Badge text="可选" />
 
-### 你可以执行下面命令快速启动镜像
+TODO: 待补充
+
+## 使用镜像
+
+### 运行容器
 
 ```sh
-docker run -p -d 22:22  -e ROOTPASSWD=root -u ming:ming  try-linux
+docker run -d -p 22:22  -e ROOTPASSWD=root --name try try-linux 
 ```
+- -d 选项表示容器启动后在后台运行，如果不指定该选项，关闭命令行或者使用<kbd>Ctrl</kbd>+<kbd>C</kbd>终止进程，容器也会同时停止运行。
+- -p 将容器中的端口映射到主机中，':' 前面是指 host 端口, 后面数字是指容器中的端口。映射后主机的端口的数据将会被转发到容器中的端口。22 是 sshd 服务默认的端口号。请勿修改容器中的端口，如果你主机的端口 22 已经被占用你可以使用其他端口，比如:-p 222:22。
+- -e 指定容器的环境变量，容器启动时会读取 环境变量 ROOTPASSWD 的值来设定 root 的用户密码。
+- --name 指定容器的名字。
+- try-linux 用于启动容器的镜像的名字。
+你可以通过设置环境变量 ROOTPASSWD， 来设置容器中 root 用户的密码，默认为 root.
 
-你通过设置环境变量 ROOTPASSWD， 来设置容器中 root 用户的密码，默认为 root.
+### 启动现有容器
 
-### 测试连接
+容器启动后，所有数据将保存在容器中，如果你需要继续使用请不要删除该容器。当你的电脑重启后，你的容器并不会自动启动，也不需要创建一个新的容器。你可以通过下面命令来重新运行已经创建的容器。
+
+```sh
+docker start try 
+```
+- try 是你在 [运行容器](#运行容器)时通过 `--name` 指定的容器名字。
+
+### 测试连接 <Badge text="Test" />
 
 如果你使用的是 bash shell 执行下面命令来连接到容器：
 
@@ -90,21 +103,47 @@ ssh root@$(hostname).local
 :::
 ::::
 
-如果成功连接表示容器成功运行起来。
+根据提示输入 root 用户密码 `root`, 你输入密码时终端将不会显示，输入后按 <kbd>Enter</kbd>确认，连接成功后你将进入容器中的命令行。
+```text:no-line-numbers
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+Last login: Sun Mar 12 06:04:58 2023 from 172.17.0.1
+root@0eb7a32e07d2:~#
+```
+你可以通过 `exit` 命令退出远程终端，回到当前的终端。
+
+::: danger 特别注意
+如果你在[启动容器](#启动容器)时 使用 -p 修改了默认的 22 端口号，在连接时也必须通过 ssh 命令的 -p 选项来指定连接端口。
+如:
+```bash
+ssh -p 222 root@`hostname`.local
+```
+```powershell
+ssh -p 222 root@$(hostname).local
+```
+:::
 
 ### 设置免密登录
 
-1. 如果你的系统中没有可用的密钥对,你可以使用 ssh-keygen 生成 ssh 密钥对
+1. 如果你的系统中没有可用的密钥对,你可以使用 ssh-keygen 生成 ssh 密钥对。
 
 ```bash
 ssh-keygen -t rsa
 ```
 
-所有输入信息留空，直到设置完成。
+所有输入信息留空，直到设置完成。生成的密钥对将保存在 `~/.ssh/` 文件夹中。
 
 2. 将公钥上传至容器
 
-对于 bash 用户, 你可以使用 ssh-copy-id 命令上传公钥至主机
+对于 bash 用户, 你可以使用 ssh-copy-id 命令上传公钥至主机。如果你是 Windows 用户你可以安装 [Git](https://git-scm.com/) 客户端，来获得一个 `git bash` 终端。请参考 [安装 git](#安装-git)。
 
 :::: code-group
 ::: code-group-item bash
@@ -114,11 +153,9 @@ ssh-copy-id root@$(hostname).local
 :::
 ::: code-group-item powershell
 ```powershell
-ssh root@coin.local "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
+ssh  root@$(hostname).local "mkdir ~/.ssh/; echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
 ```
 :::
 ::::
 
-配置成功后你可以无需输入密码，便可以登录到主机。如何登录可以参考 [**测试连接**](#测试连接)
-
-### 更多
+配置成功后你可以无需输入密码，便可以登录到主机。如何登录可以参考 [**测试连接**](#测试连接)。
