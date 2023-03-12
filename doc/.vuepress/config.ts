@@ -7,6 +7,7 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "Try-Linux",
   description: "Try-Linux 文档",
+  base: "/try-linux/",
   theme: defaultTheme({
     logo: null,
     repo: 'https://github.com/helittr/try-linux',
