@@ -7,19 +7,22 @@ heroAlt: Try-Linux
 heroText: try-linux
 tagline: 使用 docker 学习 linux 源码，内置 linux 源码 以及构建环境，并且可以使用 qemu 进行类似硬件级调试。
 copyright: false
-footer: 使用 <a href="https://theme-hope.vuejs.press/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2023-present holy
+footer: build by Vuepress | MIT, copyright © 2023-present holy
 
 actions:
   - text: 开始使用 💡
-    link: /
-    type: primary
+    link: /use/
+    type: primary 
 
-  - text: 文档
-    link: /
+  - text: 创建项目 📖
+    link: /project/
+
+  - text: 学习内核 ✍️
+    link: /learn/
 
 features:
   - title: Docker 部署
-    icon: /docker.svg
+    icon: build
     details: 使用 docker 快速部署，无需手动配置编译环境
     link:
 
