@@ -30,9 +30,28 @@ export default defineUserConfig({
         link: '/learn/',
       }
     ],
-    sidebar: [
-      '/README.md',
-    ],
+    sidebar: {
+      '/project/': [
+        {
+          text: '项目',
+          children: [
+            '/project/ramfs.md',
+          ],
+          collapsible: true,
+        }
+      ],
+      '/use/': [
+        {
+          text: '使用镜像',
+          children: [
+            '/use/README.md',
+            '/use/UseVscode.md',
+          ],
+          collapsible: true,
+        }
+      ],
+
+    },
     editLink: true,
     docsBranch: 'master',
     docsDir: 'doc',

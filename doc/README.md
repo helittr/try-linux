@@ -4,7 +4,7 @@ icon: home
 title: 主页
 heroImage: 
 heroAlt: Try-Linux
-heroText: try-linux
+heroText: Try-Linux
 tagline: 使用 docker 学习 linux 源码，内置 linux 源码 以及构建环境，并且可以使用 qemu 进行类似硬件级调试。
 copyright: false
 footer: build by Vuepress | MIT, copyright © 2023-present holy
