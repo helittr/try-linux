@@ -9,14 +9,14 @@
             "runOptions": {
                 "instanceLimit": 1
             },
-            "command": "make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig"
+            "command": "make O=./out/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig"
         },
         {
             "label": "build",
             "type": "shell",
             "hide": true,
-            "command": "make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8",
-            "problemMatcher": "gcc",
+            "command": "make ARCH=arm O=./out/ CROSS_COMPILE=arm-linux-gnueabihf- -j8 zImage",
+            "problemMatcher": "$gcc",
             "detail": "build kernel with arch arm",
             "icon": {
                 "id": "inbox",
@@ -34,11 +34,11 @@
             "label": "build kernel",
             "type": "shell",
             "isBackground": false,
+            "problemMatcher": "$gcc",
             "runOptions": {
                 "instanceLimit": 1
             },
             "command": "python3 ${workspaceFolder}/scripts/clang-tools/gen_compile_commands.py",
-            "detail": "start kernel by using qemu",
             "dependsOn": [
                 "build"
             ]
@@ -50,8 +50,9 @@
             "runOptions": {
                 "instanceLimit": 1
             },
-            "command": "qemu-system-arm -kernel ${workspaceFolder}/arch/arm/boot/zImage -machine virt -nographic -s -S",
+            "command": "qemu-system-arm -kernel ${workspaceFolder}/out/arch/arm/boot/zImage -machine virt -nographic -s -S",
             "detail": "start kernel by using qemu",
+            "problemMatcher": "$gcc",
         }
     ]
 }
