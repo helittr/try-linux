@@ -33,6 +33,9 @@ ADD src/sshd.conf /etc/ssh/sshd_config.d/
 RUN git clone --depth=1  git://busybox.net/busybox.git ~/initramfs/busybox/
 ADD initramfs/ /root/initramfs/
 
+# install tools
+RUN apt install -y curl vim
+
 # set root's password
 ENTRYPOINT if [ -z $ROOTPASSWD ]; then ROOTPASSWD=root; fi; echo root:$ROOTPASSWD | chpasswd; /usr/sbin/sshd -D -e;
 

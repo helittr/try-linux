@@ -35,7 +35,7 @@
 ### 你可以执行下面命令快速启动镜像
 
 ```
-docker run -p -d 22:22  -e ROOTPASSWD=root -u ming:ming  try-linux
+docker run -p 22:22 -d  -e ROOTPASSWD=root -u ming:ming  try-linux
 ```
 你通过设置环境变量 ROOTPASSWD， 来设置容器中 root 用户的密码，默认为 root.
 
@@ -77,7 +77,7 @@ ssh-copy-id root@$(hostname).local
 或者 powershell 用户
 
 ```powershell
-ssh root@coin.local "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
+ssh root@$(hostname).local "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
 ```
 
 配置成功后你可以无需输入密码，便可以登录到主机。如何登录可以参考 [**测试连接**](#测试连接)
