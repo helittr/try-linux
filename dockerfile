@@ -24,10 +24,18 @@ RUN apt install qemu-system-arm -y
 # https://github.com/torvalds/linux
 #RUN git clone --depth=1 https://github.com/raspberrypi/linux -b rpi-5.15.y /root/rasbian_linux/
 RUN git clone --depth=1 https://gitee.com/mirrors/linux_old1.git ~/linux/
-ADD EditorConfig/ /root/linux/.vscode/
+ADD linux/.vscode/ /root/linux/.vscode/
 
 # start sshd
 ADD src/sshd.conf /etc/ssh/sshd_config.d/
+
+# rootfs
+RUN git clone --depth=1  git://busybox.net/busybox.git ~/initramfs/busybox/
+ADD initramfs/ /root/initramfs/
+
+# install tools
+RUN apt install -y curl vim
+
 # set root's password
 ENTRYPOINT if [ -z $ROOTPASSWD ]; then ROOTPASSWD=root; fi; echo root:$ROOTPASSWD | chpasswd; /usr/sbin/sshd -D -e;
 
