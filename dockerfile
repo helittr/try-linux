@@ -34,7 +34,7 @@ RUN git clone --depth=1  git://busybox.net/busybox.git ~/initramfs/busybox/
 ADD initramfs/ /root/initramfs/
 
 # install tools
-RUN apt install -y curl vim
+RUN apt install -y curl vim cpio
 
 # set root's password
 ENTRYPOINT if [ -z $ROOTPASSWD ]; then ROOTPASSWD=root; fi; echo root:$ROOTPASSWD | chpasswd; /usr/sbin/sshd -D -e;

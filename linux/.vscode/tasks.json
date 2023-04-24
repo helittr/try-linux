@@ -50,7 +50,7 @@
             "runOptions": {
                 "instanceLimit": 1
             },
-            "command": "qemu-system-arm -kernel ${workspaceFolder}/out/arch/arm/boot/zImage -machine virt -nographic -s -S",
+            "command": "qemu-system-arm -m 4096 -initrd ${workspaceFolder}/../initramfs/initramfs.cpio -kernel ${workspaceFolder}/out/arch/arm/boot/zImage -machine virt -nographic -s -S -append 'init=linuxrc console=ttyAMA0'",
             "detail": "start kernel by using qemu",
             "problemMatcher": "$gcc",
         }
