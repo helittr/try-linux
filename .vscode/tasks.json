@@ -9,13 +9,19 @@
             "runOptions": {
                 "instanceLimit": 1
             },
-            "command": "make O=./out/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig"
+            "options": {
+                "cwd": "${workspaceFolder}/linux"
+            },
+            "command": "make O=../out/ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig"
         },
         {
             "label": "build",
             "type": "shell",
             "hide": true,
-            "command": "make ARCH=arm O=./out/ CROSS_COMPILE=arm-linux-gnueabihf- -j8 zImage",
+            "options": {
+                "cwd": "${workspaceFolder}/linux"
+            },
+            "command": "make ARCH=arm O=../out/ CROSS_COMPILE=arm-linux-gnueabihf- -j8 zImage",
             "problemMatcher": "$gcc",
             "detail": "build kernel with arch arm",
             "icon": {
@@ -38,6 +44,9 @@
             "runOptions": {
                 "instanceLimit": 1
             },
+            "options": {
+                "cwd": "${workspaceFolder}/linux"
+            },
             "command": "python3 ${workspaceFolder}/scripts/clang-tools/gen_compile_commands.py",
             "dependsOn": [
                 "build"
@@ -49,6 +58,9 @@
             "isBackground": true,
             "runOptions": {
                 "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/linux"
             },
             "command": "qemu-system-arm -m 4096 -initrd ${workspaceFolder}/../initramfs/initramfs.cpio -kernel ${workspaceFolder}/out/arch/arm/boot/zImage -machine virt -nographic -s -S -append 'init=linuxrc console=ttyAMA0'",
             "detail": "start kernel by using qemu",

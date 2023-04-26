@@ -3,14 +3,14 @@
         {
             "name": "arm-Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/linux/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/arm-linux-gnueabihf-gcc",
             "cStandard": "c17",
             "cppStandard": "c++98",
             "intelliSenseMode": "gcc-arm",
-            "compileCommands": "${workspaceFolder}/compile_commands.json"
+            "compileCommands": "${workspaceFolder}/linux/compile_commands.json"
         }
     ],
     "version": 4
